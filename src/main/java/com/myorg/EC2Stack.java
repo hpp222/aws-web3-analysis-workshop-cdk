@@ -18,13 +18,12 @@ public class EC2Stack extends Stack {
     public EC2Stack(final Construct scope, final String id, final StackProps props, Vpc vpc) {
         super(scope, id, props);  
         
-        CfnParameter imageID = CfnParameter.Builder.create(this, "ImageID")
+        final CfnParameter imageID = CfnParameter.Builder.create(this, "ImageID")
                 .type("String")
                 .description("The ID of the ethereum full node image")
                 .build();
         
         final String REGION   = System.getenv("CDK_DEFAULT_REGION");
-        final String KEY_NAME = "Web3KeyPair";
         
         // create a security group for Ethereum instance
         final SecurityGroup sg = SecurityGroup.Builder.create(this, "Ethereum-SG")
@@ -38,28 +37,16 @@ public class EC2Stack extends Stack {
         
         // crete a key pair
         final CfnKeyPair cfnKeyPair = CfnKeyPair.Builder.create(this, "Web3KeyPair")
-                .keyName(KEY_NAME)
+                .keyName("Web3KeyPair")
                 .build();
         
-        // assign kds write permissions and ssm premissions to ec2 instance
-        final Role instanceRole = Role.Builder.create(this, "EC2EthInstanceRole")
-                .assumedBy(new ServicePrincipal("ec2.amazonaws.com"))
-                .roleName("EC2EthInstanceProfile")
-                .build(); 
-        instanceRole.addToPolicy(PolicyStatement.Builder.create()
-              .actions(List.of("kinesis:PutRecord", "kinesis:PutRecords"))
-              .effect(Effect.ALLOW)
-              .resources(List.of("*"))
-              .build());       
-        instanceRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("AmazonSSMManagedInstanceCore"));
         
         // create instance from Ethereum full node image
         Instance.Builder.create(this, "Eth-Instance")
-                .instanceType(InstanceType.of(InstanceClass.M5, InstanceSize.XLARGE2))
+                .instanceType(InstanceType.of(InstanceClass.M6G, InstanceSize.XLARGE2))
                 .machineImage(new GenericLinuxImage(Map.of(REGION, imageID.getValueAsString())))
                 .vpc(vpc)
-                .keyName(KEY_NAME)
-                .role(instanceRole)
+                .keyName("Web3KeyPair")
                 .securityGroup(sg)
                 .vpcSubnets(SubnetSelection.builder().subnetType(SubnetType.PUBLIC).build())
                 .build();

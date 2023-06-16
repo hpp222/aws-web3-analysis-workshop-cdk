@@ -18,8 +18,11 @@ public class Web3AnalyticsApp {
         
         VpcStack vpcStack                     = new VpcStack(app, "VpcStack", stackProps);
         StreamingIngestionStack streamStack   = new StreamingIngestionStack(app, "StreamingIngestionStack", stackProps);
-        EC2Stack EC2Stack                     = new EC2Stack(app, "EC2Stack", stackProps, vpcStack.getVpc());
+        EC2Stack ec2Stack                     = new EC2Stack(app, "EC2Stack", stackProps, vpcStack.getVpc());
         RedshiftServerlessStack redshiftStack = new RedshiftServerlessStack(app, "RedshiftServerlessStack", stackProps, vpcStack.getVpc());
+        
+        ec2Stack.getNode().addDependency(vpcStack);
+        redshiftStack.getNode().addDependency(vpcStack);
         redshiftStack.getNode().addDependency(streamStack);
 
         app.synth();

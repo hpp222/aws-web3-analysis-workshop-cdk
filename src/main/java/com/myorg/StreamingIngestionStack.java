@@ -36,7 +36,6 @@ public class StreamingIngestionStack extends Stack {
                 .effect(Effect.ALLOW)
                 .resources(List.of("*"))
                 .build());        
-         
         lambdaRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaBasicExecutionRole"));
         
         
@@ -50,7 +49,6 @@ public class StreamingIngestionStack extends Stack {
 
         
         kdsFunction.addEventSource(KinesisEventSource.Builder.create(rawStream)
-                .batchSize(100) // default
                 .startingPosition(StartingPosition.LATEST)
                 .build());
         

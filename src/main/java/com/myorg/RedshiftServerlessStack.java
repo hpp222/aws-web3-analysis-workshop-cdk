@@ -70,8 +70,6 @@ public class RedshiftServerlessStack extends Stack {
                 .defaultIamRoleArn(redshiftStreamingRole.getRoleArn())
                 .iamRoles(List.of(redshiftStreamingRole.getRoleArn()))
                 .build();  
-        namespace.getNode().addDependency(secret); 
-        namespace.getNode().addDependency(redshiftStreamingRole);
 
         final CfnWorkgroup workgroup = CfnWorkgroup.Builder.create(this, "RedshiftServerlessWorkgroup")
                 .workgroupName(REDSHIFT_WORKGROUP_NAME)
