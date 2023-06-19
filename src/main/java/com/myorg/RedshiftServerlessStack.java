@@ -98,7 +98,7 @@ public class RedshiftServerlessStack extends Stack {
                             "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'receipts_root\')::text as receipts_root,"+
                             "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'miner\')::text as miner,"+
                             "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'difficulty\')::numeric(38) as difficulty,"+
-                            "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'total_difficulty\')::numeric(38) as total_difficulty,"+
+                            "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'total_difficulty\')::text as total_difficulty,"+
                             "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'size\')::bigint as size,"+
                             "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'extra_data\')::text as extra_data,"+
                             "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'gas_limit\')::bigint as gas_limit,"+

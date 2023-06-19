@@ -40,13 +40,23 @@ public class EC2Stack extends Stack {
                 .keyName("Web3KeyPair")
                 .build();
         
-        
+        final Role instanceRole = Role.Builder.create(this, "Web3WorkshopInstanceRole")
+                .assumedBy(new ServicePrincipal("ec2.amazonaws.com"))
+                .roleName("Web3WorkshopInstanceRole")
+                .build(); 
+        instanceRole.addToPolicy(PolicyStatement.Builder.create()
+                .actions(List.of("kinesis:PutRecord","kinesis:PutRecords"))
+                .effect(Effect.ALLOW)
+                .resources(List.of("*"))
+                .build());    
+                
         // create instance from Ethereum full node image
         Instance.Builder.create(this, "Eth-Instance")
                 .instanceType(InstanceType.of(InstanceClass.M6G, InstanceSize.XLARGE2))
                 .machineImage(new GenericLinuxImage(Map.of(REGION, imageID.getValueAsString())))
                 .vpc(vpc)
-                .keyName("Web3KeyPair")
+                .keyName(cfnKeyPair.getKeyName())
+                .role(instanceRole)
                 .securityGroup(sg)
                 .vpcSubnets(SubnetSelection.builder().subnetType(SubnetType.PUBLIC).build())
                 .build();
