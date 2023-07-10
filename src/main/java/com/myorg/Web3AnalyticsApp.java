@@ -16,14 +16,21 @@ public class Web3AnalyticsApp {
                     .build())
             .build();
         
-        VpcStack vpcStack                     = new VpcStack(app, "VpcStack", stackProps);
-        StreamingIngestionStack streamStack   = new StreamingIngestionStack(app, "StreamingIngestionStack", stackProps);
-        EC2Stack ec2Stack                     = new EC2Stack(app, "EC2Stack", stackProps, vpcStack.getVpc());
-        RedshiftServerlessStack redshiftStack = new RedshiftServerlessStack(app, "RedshiftServerlessStack", stackProps, vpcStack.getVpc());
+        VpcStack vpcStack                              = new VpcStack(app, "VpcStack", stackProps);
+        RedshiftServerlessStack redshiftStack          = new RedshiftServerlessStack(app, "RedshiftServerlessStack", stackProps, vpcStack.getVpc());
+        EthereumStreamingStack ethereumStreamingStack  = new EthereumStreamingStack(app, "EthereumStreamingStack", stackProps, vpcStack.getVpc(), redshiftStack);
+        BitcoinStreamingStack bitcoinStreamingStack    = new BitcoinStreamingStack(app, "BitcoinStreamingStack", stackProps, vpcStack.getVpc(), redshiftStack);
+        IoTexStreamingStack ioTexStreamingStack        = new IoTexStreamingStack(app, "IoTexStreamingStack", stackProps, vpcStack.getVpc(), redshiftStack);
+        PolygonStreamingStack polygonStreamingStack    = new PolygonStreamingStack(app, "PolygonStreamingStack", stackProps, vpcStack.getVpc(), redshiftStack);
+        //QuicksightStack quicksightStack                = new QuicksightStack(app, "QuicksightStack", stackProps, vpcStack.getVpc(), redshiftStack);
         
-        ec2Stack.getNode().addDependency(vpcStack);
         redshiftStack.getNode().addDependency(vpcStack);
-        redshiftStack.getNode().addDependency(streamStack);
+        ethereumStreamingStack.getNode().addDependency(redshiftStack);
+        bitcoinStreamingStack.getNode().addDependency(redshiftStack);
+        ioTexStreamingStack.getNode().addDependency(redshiftStack);
+        polygonStreamingStack.getNode().addDependency(redshiftStack);
+
+        
 
         app.synth();
     }

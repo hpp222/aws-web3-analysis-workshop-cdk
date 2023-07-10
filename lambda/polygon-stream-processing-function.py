@@ -21,6 +21,6 @@ def lambda_handler(event, context):
         
         
     response = kinesis_client.put_records(
-        StreamName='processed_blockchain_kds',
+        StreamName='processed_polygon_stream',
         Records=result_records
     )
