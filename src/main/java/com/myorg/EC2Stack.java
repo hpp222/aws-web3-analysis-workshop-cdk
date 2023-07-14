@@ -32,8 +32,10 @@ public class EC2Stack extends Stack {
                 .securityGroupName("Ethereum-SG")
                 .build();
         sg.addIngressRule(Peer.anyIpv4(), Port.tcp(22), "allow ssh access from anywhere");
-        sg.addIngressRule(Peer.anyIpv4(), Port.tcp(30303), "Geth runs on port 30303 for external listening");  
-        sg.addIngressRule(Peer.anyIpv4(), Port.tcp(9000), "Lighthouse, by default, uses port 9000 for both TCP and UDP"); 
+        sg.addIngressRule(Peer.anyIpv4(), Port.tcp(30303), "for external listening of Geth");  
+        sg.addIngressRule(Peer.anyIpv4(), Port.udp(30303), "for external listening of Geth");  
+        sg.addIngressRule(Peer.anyIpv4(), Port.tcp(9000), "for external listening of Lighthouse"); 
+        sg.addIngressRule(Peer.anyIpv4(), Port.udp(9000), "for external listening of Lighthouse"); 
         
         // crete a key pair
         final CfnKeyPair cfnKeyPair = CfnKeyPair.Builder.create(this, "Web3KeyPair")
