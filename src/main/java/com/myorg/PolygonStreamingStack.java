@@ -39,7 +39,6 @@ public class PolygonStreamingStack extends Stack {
         sg.addIngressRule(Peer.anyIpv4(), Port.udp(30303), "allow Bor service connect our node to other nodes Bor service");  
         sg.addIngressRule(Peer.anyIpv4(), Port.tcp(26656), "allow Heimdall service connect our node to other nodes Heimdall service"); 
         sg.addIngressRule(Peer.anyIpv4(), Port.udp(26656), "allow Heimdall service connect our node to other nodes Heimdall service"); 
-        sg.addIngressRule(Peer.ipv4("127.0.0.1/32"), Port.allTraffic(), "local check"); 
         
         final CfnKeyPair cfnKeyPair = CfnKeyPair.Builder.create(this, "PolygonKeyPair")
                 .keyName("PolygonKeyPair")
