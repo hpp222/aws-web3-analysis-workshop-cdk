@@ -78,7 +78,7 @@ public class PolygonStreamingStack extends Stack {
                 .roleName("PolygonLambdaStreamingRole")
                 .build();
         lambdaRole.addToPolicy(PolicyStatement.Builder.create()
-                .actions(List.of("kinesis:PutRecords"))
+                .actions(List.of("kinesis:PutRecords","kinesis:PutRecord"))
                 .effect(Effect.ALLOW)
                 .resources(List.of("*"))
                 .build());        
