@@ -37,7 +37,6 @@ public class BitcoinStreamingStack extends Stack {
         sg.addIngressRule(Peer.anyIpv4(), Port.tcp(22), "allow ssh access from anywhere");
         sg.addIngressRule(Peer.anyIpv4(), Port.tcp(80), "for health monitoring");  
         sg.addIngressRule(Peer.anyIpv4(), Port.tcp(18332), "for syncing");  
-        sg.addIngressRule(Peer.ipv4("127.0.0.1/32"), Port.allTraffic(), "local check"); 
         
         final CfnKeyPair cfnKeyPair = CfnKeyPair.Builder.create(this, "BitcoinKeyPair")
                 .keyName("BitcoinKeyPair")
