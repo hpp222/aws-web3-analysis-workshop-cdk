@@ -40,7 +40,6 @@ public class EthereumStreamingStack extends Stack {
         sg.addIngressRule(Peer.anyIpv4(), Port.udp(30303), "Geth runs on port 30303 for both TCP and UDP");  
         sg.addIngressRule(Peer.anyIpv4(), Port.tcp(9000), "Lighthouse, by default, uses port 9000 for both TCP and UDP"); 
         sg.addIngressRule(Peer.anyIpv4(), Port.udp(9000), "Lighthouse, by default, uses port 9000 for both TCP and UDP"); 
-        sg.addIngressRule(Peer.ipv4("127.0.0.1/32"), Port.allTraffic(), "local check"); 
         
         // crete a key pair
         final CfnKeyPair cfnKeyPair = CfnKeyPair.Builder.create(this, "EthereumKeyPair")
@@ -82,7 +81,7 @@ public class EthereumStreamingStack extends Stack {
                 .roleName("EthLambdaStreamingRole")
                 .build();
         lambdaRole.addToPolicy(PolicyStatement.Builder.create()
-                .actions(List.of("kinesis:PutRecords"))
+                .actions(List.of("kinesis:PutRecords","kinesis:PutRecord"))
                 .effect(Effect.ALLOW)
                 .resources(List.of("*"))
                 .build());        

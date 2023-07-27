@@ -83,7 +83,7 @@ public class IoTexStreamingStack extends Stack {
                 .roleName("IoTexLambdaStreamingRole")
                 .build();
         lambdaRole.addToPolicy(PolicyStatement.Builder.create()
-                .actions(List.of("kinesis:PutRecords"))
+                .actions(List.of("kinesis:PutRecords","kinesis:PutRecord"))
                 .effect(Effect.ALLOW)
                 .resources(List.of("*"))
                 .build());        
@@ -111,7 +111,7 @@ public class IoTexStreamingStack extends Stack {
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'version\')::int as version,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'height\')::bigint as height,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'hash\')::text as hash,"+
-                    "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'timestamp\')::text as timestamp,"+
+                    "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'timestamp\')::text as time_stamp,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'prev_block_hash\')::text as prev_block_hash,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'tx_root\')::text as tx_root,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'receipt_root\')::text as receipt_root,"+

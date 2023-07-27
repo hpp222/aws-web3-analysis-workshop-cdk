@@ -76,7 +76,7 @@ public class BitcoinStreamingStack extends Stack {
                 .roleName("BitcoinLambdaStreamingRole")
                 .build();
         lambdaRole.addToPolicy(PolicyStatement.Builder.create()
-                .actions(List.of("kinesis:PutRecords"))
+                .actions(List.of("kinesis:PutRecords","kinesis:PutRecord"))
                 .effect(Effect.ALLOW)
                 .resources(List.of("*"))
                 .build());        
@@ -107,7 +107,7 @@ public class BitcoinStreamingStack extends Stack {
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'number\')::bigint as number,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'version\')::bigint as version,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'merkle_root\')::text as merkle_root,"+
-                    "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'timestamp\')::text as timestamp,"+
+                    "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'timestamp\')::text as time_stamp,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'nonce\')::text as nonce,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'bits\')::text as bits,"+
                     "json_extract_path_text(from_varbyte(kinesis_data, \'utf-8\'),\'coinbase_param\')::text as coinbase_param,"+
