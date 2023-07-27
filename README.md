@@ -8,8 +8,6 @@ To perform this workshop, you’ll need the following:
    * [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
    * [Maven](https://docs.aws.amazon.com/neptune/latest/userguide/iam-auth-connect-prerq.html)
    * [Java](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc)
-   * 
-   
 ## Useful commands
 
  * `mvn package`     compile and run tests
@@ -20,15 +18,14 @@ To perform this workshop, you’ll need the following:
  * `cdk docs`        open CDK documentation
 
 ## Deploy this project
-1. deploy all chains:
-    cdk deploy --all --parameters EC2Stack:ImageID="ami-0123456789"
+1. deploy all chains
     ```
     cdk deploy --all --parameters EthereumStreamingStack:EthereumImageID="ami-0123456789" \
     --parameters BitcoinStreamingStack:BitcoinImageID="ami-0123456789" \
     --parameters IoTexStreamingStack:IoTexImageID="ami-0123456789" \
     --parameters PolygonStreamingStack:PolygonImageID="ami-0123456789"
     ```
-2. deploy specifc chain:
+2. deploy specific chain
     ```
     cdk deploy VpcStack RedshiftServerlessStack EthereumStreamingStack --parameters EthereumStreamingStack:EthereumImageID="ami-0123456789"
     ```
